@@ -27,13 +27,27 @@ public final class RemoteFeedLoader: FeedLoader {
 					completion(.failure(Error.invalidData))
 					return
 				}
-				guard let _ = try? JSONSerialization.jsonObject(with: data, options: []) else {
+				guard let _ = try? JSONDecoder().decode([FeedImageAPI].self, from: data) else {
 					completion(.failure(Error.invalidData))
 					return
 				}
 			case .failure:
 				completion(.failure(Error.connectivity))
 			}
+		}
+	}
+
+	private struct FeedImageAPI: Decodable {
+		let id: UUID
+		let description: String?
+		let location: String?
+		let urlString: String
+
+		enum CodingKeys: String, CodingKey {
+			case id = "iamge_id"
+			case description = "iamge_desc"
+			case location = "iamge_loc"
+			case urlString = "image_url"
 		}
 	}
 }
