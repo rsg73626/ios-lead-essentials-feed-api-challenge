@@ -27,9 +27,12 @@ public final class RemoteFeedLoader: FeedLoader {
 					completion(.failure(Error.invalidData))
 					return
 				}
-				guard let _ = try? JSONDecoder().decode(Feed.self, from: data) else {
+				guard let feed = try? JSONDecoder().decode(Feed.self, from: data) else {
 					completion(.failure(Error.invalidData))
 					return
+				}
+				if feed.items.isEmpty {
+					completion(.success([]))
 				}
 			case .failure:
 				completion(.failure(Error.connectivity))
