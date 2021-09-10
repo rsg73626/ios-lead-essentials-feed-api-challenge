@@ -27,7 +27,7 @@ public final class RemoteFeedLoader: FeedLoader {
 					completion(.failure(Error.invalidData))
 					return
 				}
-				guard let _ = try? JSONDecoder().decode([FeedImageAPI].self, from: data) else {
+				guard let _ = try? JSONDecoder().decode(Feed.self, from: data) else {
 					completion(.failure(Error.invalidData))
 					return
 				}
@@ -35,6 +35,10 @@ public final class RemoteFeedLoader: FeedLoader {
 				completion(.failure(Error.connectivity))
 			}
 		}
+	}
+
+	private struct Feed: Decodable {
+		let items: [FeedImageAPI]
 	}
 
 	private struct FeedImageAPI: Decodable {
