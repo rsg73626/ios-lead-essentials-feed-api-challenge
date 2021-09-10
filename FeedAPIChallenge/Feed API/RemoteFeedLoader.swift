@@ -7,6 +7,7 @@ import Foundation
 public final class RemoteFeedLoader: FeedLoader {
 	private let url: URL
 	private let client: HTTPClient
+	private static let successStatusCode = 200
 
 	public enum Error: Swift.Error {
 		case connectivity
@@ -20,7 +21,13 @@ public final class RemoteFeedLoader: FeedLoader {
 
 	public func load(completion: @escaping (FeedLoader.Result) -> Void) {
 		client.get(from: url) { result in
-			if case .failure = result {
+			switch result {
+			case let .success((_, response)):
+				guard response.statusCode == RemoteFeedLoader.successStatusCode else {
+					completion(.failure(Error.invalidData))
+					return
+				}
+			case .failure:
 				completion(.failure(Error.connectivity))
 			}
 		}
