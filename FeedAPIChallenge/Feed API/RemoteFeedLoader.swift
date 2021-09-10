@@ -59,9 +59,9 @@ public final class RemoteFeedLoader: FeedLoader {
 			case location = "image_loc"
 			case urlString = "image_url"
 		}
-		
+
 		var url: URL? { URL(string: urlString) }
-		
+
 		var feedImage: FeedImage? {
 			url != nil ? FeedImage(id: id, description: description, location: location, url: url!) : nil
 		}
