@@ -33,6 +33,8 @@ public final class RemoteFeedLoader: FeedLoader {
 				}
 				if feed.items.isEmpty {
 					completion(.success([]))
+				} else {
+					completion(.success(feed.feedImages))
 				}
 			case .failure:
 				completion(.failure(Error.connectivity))
@@ -42,6 +44,15 @@ public final class RemoteFeedLoader: FeedLoader {
 
 	private struct Feed: Decodable {
 		let items: [FeedImageAPI]
+
+		var feedImages: [FeedImage] {
+			items.compactMap {
+				if let url = URL(string: $0.urlString) {
+					return FeedImage(id: $0.id, description: $0.description, location: $0.location, url: url)
+				}
+				return nil
+			}
+		}
 	}
 
 	private struct FeedImageAPI: Decodable {
