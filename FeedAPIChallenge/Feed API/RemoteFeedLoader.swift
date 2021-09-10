@@ -32,11 +32,7 @@ public final class RemoteFeedLoader: FeedLoader {
 					completion(.failure(Error.invalidData))
 					return
 				}
-				if feed.items.isEmpty {
-					completion(.success([]))
-				} else {
-					completion(.success(feed.feedImages))
-				}
+				completion(.success(feed.feedImages))
 			case .failure:
 				completion(.failure(Error.connectivity))
 			}
