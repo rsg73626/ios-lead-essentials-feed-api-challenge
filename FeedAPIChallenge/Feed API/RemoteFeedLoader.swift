@@ -51,9 +51,9 @@ public final class RemoteFeedLoader: FeedLoader {
 		let urlString: String
 
 		enum CodingKeys: String, CodingKey {
-			case id = "iamge_id"
-			case description = "iamge_desc"
-			case location = "iamge_loc"
+			case id = "image_id"
+			case description = "image_desc"
+			case location = "image_loc"
 			case urlString = "image_url"
 		}
 	}
