@@ -43,7 +43,7 @@ public final class RemoteFeedLoader: FeedLoader {
 		let items: [FeedImageAPI]
 
 		var feedImages: [FeedImage] {
-			items.compactMap { $0.feedImage }
+			items.map { $0.feedImage }
 		}
 	}
 
@@ -51,19 +51,17 @@ public final class RemoteFeedLoader: FeedLoader {
 		let id: UUID
 		let description: String?
 		let location: String?
-		let urlString: String
+		let url: URL
 
 		enum CodingKeys: String, CodingKey {
 			case id = "image_id"
 			case description = "image_desc"
 			case location = "image_loc"
-			case urlString = "image_url"
+			case url = "image_url"
 		}
 
-		var url: URL? { URL(string: urlString) }
-
-		var feedImage: FeedImage? {
-			url != nil ? FeedImage(id: id, description: description, location: location, url: url!) : nil
+		var feedImage: FeedImage {
+			FeedImage(id: id, description: description, location: location, url: url)
 		}
 	}
 }
